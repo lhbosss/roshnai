@@ -105,13 +105,23 @@ export default function RegisterPage() {
             <option>2k24</option>
             <option>2k25</option>
           </select>
-          <input 
-            placeholder="Email address" 
-            type="email" 
-            value={email} 
-            onChange={e=>setEmail(e.target.value)} 
-            required 
-          />
+          <div>
+            <input 
+              placeholder="Email address" 
+              type="email" 
+              value={email} 
+              onChange={e=>setEmail(e.target.value)} 
+              required 
+            />
+            <p style={{ 
+              fontSize: '12px', 
+              color: 'var(--text-muted)', 
+              margin: '6px 0 0 0',
+              fontStyle: 'italic'
+            }}>
+              Use Dept. issued email only e.g., ending with @student.nust.edu.pk
+            </p>
+          </div>
           <input 
             placeholder="Password" 
             type="password" 
