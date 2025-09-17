@@ -37,19 +37,48 @@ export default function LoginPage() {
   }
 
   return (
-    <div style={{ minHeight:'70vh', display:'flex', alignItems:'center', justifyContent:'center' }}>
-      <div className="card" style={{ width:360, border:'none' }}>
-        <div style={{ display:'flex', justifyContent:'center', marginBottom:12 }}>
-          <Image src="/roshanaie+u.png" alt="Roshanai Library Logo" width={140} height={140} priority />
+    <div className="auth-layout">
+      <div className="auth-card fade-in">
+        <div className="logo-container">
+          <Image 
+            src="/roshanaie+u.png" 
+            alt="Roshanai Library Logo" 
+            width={120} 
+            height={120} 
+            priority 
+            className="logo"
+          />
         </div>
-        <h1 style={{ textAlign:'center', margin:'0 0 12px' }}>Login</h1>
-        <form onSubmit={handleSubmit} style={{ display:'flex', flexDirection:'column', gap:12 }}>
-          <input placeholder="Email" type="email" value={email} onChange={e=>setEmail(e.target.value)} required />
-          <input placeholder="Password" type="password" value={password} onChange={e=>setPassword(e.target.value)} required />
-          <button disabled={loading}>{loading? 'Logging in...' : 'Login'}</button>
-          {error && <p style={{ color:'red', margin:0 }}>{error}</p>}
+        <h1 style={{ textAlign: 'center', marginBottom: '24px', fontSize: '1.75rem' }}>Welcome Back</h1>
+        <p style={{ textAlign: 'center', marginBottom: '32px', color: 'var(--text-secondary)' }}>
+          Sign in to access your book library
+        </p>
+        <form onSubmit={handleSubmit} className="form-group">
+          <input 
+            placeholder="Email address" 
+            type="email" 
+            value={email} 
+            onChange={e=>setEmail(e.target.value)} 
+            required 
+          />
+          <input 
+            placeholder="Password" 
+            type="password" 
+            value={password} 
+            onChange={e=>setPassword(e.target.value)} 
+            required 
+          />
+          <button 
+            disabled={loading}
+            style={{ marginTop: '8px', padding: '14px 24px', fontSize: '16px' }}
+          >
+            {loading ? 'Signing in...' : 'Sign In'}
+          </button>
+          {error && <div className="error-message">{error}</div>}
         </form>
-        <p style={{ marginTop:12, textAlign:'center' }}>No account? <a href="/register">Register</a></p>
+        <p style={{ marginTop: '24px', textAlign: 'center', color: 'var(--text-secondary)' }}>
+          Don't have an account? <a href="/register">Create one here</a>
+        </p>
       </div>
     </div>
   );

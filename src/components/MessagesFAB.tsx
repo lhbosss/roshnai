@@ -29,10 +29,49 @@ export default function MessagesFAB() {
     <a
       href="/messages"
       title="Messages"
-      style={{ position:'fixed', right:24, bottom:24, width:56, height:56, borderRadius:28, background:'#fff', border:'1px solid #e5e7eb', boxShadow:'0 8px 24px rgba(0,0,0,0.12)', display:'flex', alignItems:'center', justifyContent:'center', zIndex:1000 }}
+      style={{ 
+        position: 'fixed', 
+        right: '24px', 
+        bottom: '24px', 
+        width: '60px', 
+        height: '60px', 
+        borderRadius: '50%', 
+        background: 'var(--accent-primary)', 
+        boxShadow: 'var(--shadow-lg)', 
+        display: 'flex', 
+        alignItems: 'center', 
+        justifyContent: 'center', 
+        zIndex: 1000,
+        transition: 'all 0.2s ease',
+        textDecoration: 'none'
+      }}
+      onMouseEnter={e => {
+        e.currentTarget.style.transform = 'scale(1.1)';
+        e.currentTarget.style.boxShadow = '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)';
+      }}
+      onMouseLeave={e => {
+        e.currentTarget.style.transform = 'scale(1)';
+        e.currentTarget.style.boxShadow = 'var(--shadow-lg)';
+      }}
     >
-      <span style={{ fontSize:22 }}>💬</span>
-      <span style={{ position:'absolute', top:-4, right:-4, background:'#ef4444', color:'#fff', borderRadius:9999, fontSize:11, lineHeight:'16px', width:18, height:18, textAlign:'center' }}>•</span>
+      <span style={{ fontSize: '24px' }}>💬</span>
+      <span style={{ 
+        position: 'absolute', 
+        top: '-2px', 
+        right: '-2px', 
+        background: 'var(--error)', 
+        color: 'white', 
+        borderRadius: '50%', 
+        fontSize: '10px', 
+        lineHeight: '16px', 
+        width: '16px', 
+        height: '16px', 
+        textAlign: 'center',
+        border: '2px solid white',
+        boxShadow: 'var(--shadow-sm)'
+      }}>
+        •
+      </span>
     </a>
   );
 }

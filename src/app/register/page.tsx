@@ -37,16 +37,41 @@ export default function RegisterPage() {
   }
 
   return (
-    <div style={{ minHeight:'70vh', display:'flex', alignItems:'center', justifyContent:'center' }}>
-    <div className="card" style={{ width:360, border:'none' }}>
-        <div style={{ display:'flex', justifyContent:'center', marginBottom:12 }}>
-      <Image src="/roshanaie+u.png" alt="Roshanai Library Logo" width={140} height={140} priority />
+    <div className="auth-layout">
+      <div className="auth-card fade-in">
+        <div className="logo-container">
+          <Image 
+            src="/roshanaie+u.png" 
+            alt="Roshanai Library Logo" 
+            width={120} 
+            height={120} 
+            priority 
+            className="logo"
+          />
         </div>
-        <h1 style={{ textAlign:'center', margin:'0 0 12px' }}>Register</h1>
-        <form onSubmit={handleSubmit} style={{ display:'flex', flexDirection:'column', gap:12 }}>
-          <input placeholder="Full name" value={name} onChange={e=>setName(e.target.value)} required />
-          <input placeholder="Username" value={username} onChange={e=>setUsername(e.target.value)} required />
-          <select value={department} onChange={e=>setDepartment(e.target.value)} required>
+        <h1 style={{ textAlign: 'center', marginBottom: '16px', fontSize: '1.75rem' }}>Join Roshanai</h1>
+        <p style={{ textAlign: 'center', marginBottom: '32px', color: 'var(--text-secondary)' }}>
+          Create your account to start sharing books
+        </p>
+        <form onSubmit={handleSubmit} className="form-group">
+          <input 
+            placeholder="Full name" 
+            value={name} 
+            onChange={e=>setName(e.target.value)} 
+            required 
+          />
+          <input 
+            placeholder="Username" 
+            value={username} 
+            onChange={e=>setUsername(e.target.value)} 
+            required 
+          />
+          <select 
+            value={department} 
+            onChange={e=>setDepartment(e.target.value)} 
+            required
+            style={{ color: department ? 'var(--text-primary)' : 'var(--text-muted)' }}
+          >
             <option value="" disabled>Select Department</option>
             <option>SCEE</option>
             <option>SCME</option>
@@ -68,20 +93,50 @@ export default function RegisterPage() {
             <option>NSHS</option>
             <option>SINES</option>
           </select>
-          <select value={batch} onChange={e=>setBatch(e.target.value)} required>
+          <select 
+            value={batch} 
+            onChange={e=>setBatch(e.target.value)} 
+            required
+            style={{ color: batch ? 'var(--text-primary)' : 'var(--text-muted)' }}
+          >
             <option value="" disabled>Select Batch</option>
             <option>2k22</option>
             <option>2k23</option>
             <option>2k24</option>
             <option>2k25</option>
           </select>
-          <input placeholder="Email" type="email" value={email} onChange={e=>setEmail(e.target.value)} required />
-          <input placeholder="Password" type="password" value={password} onChange={e=>setPassword(e.target.value)} required />
-          <input placeholder="Confirm password" type="password" value={confirmPassword} onChange={e=>setConfirmPassword(e.target.value)} required />
-          <button disabled={loading}>{loading? 'Registering...' : 'Register'}</button>
-          {error && <p style={{ color:'red', margin:0 }}>{error}</p>}
+          <input 
+            placeholder="Email address" 
+            type="email" 
+            value={email} 
+            onChange={e=>setEmail(e.target.value)} 
+            required 
+          />
+          <input 
+            placeholder="Password" 
+            type="password" 
+            value={password} 
+            onChange={e=>setPassword(e.target.value)} 
+            required 
+          />
+          <input 
+            placeholder="Confirm password" 
+            type="password" 
+            value={confirmPassword} 
+            onChange={e=>setConfirmPassword(e.target.value)} 
+            required 
+          />
+          <button 
+            disabled={loading}
+            style={{ marginTop: '8px', padding: '14px 24px', fontSize: '16px' }}
+          >
+            {loading ? 'Creating Account...' : 'Create Account'}
+          </button>
+          {error && <div className="error-message">{error}</div>}
         </form>
-        <p style={{ marginTop:12, textAlign:'center' }}>Have an account? <a href="/">Login</a></p>
+        <p style={{ marginTop: '24px', textAlign: 'center', color: 'var(--text-secondary)' }}>
+          Already have an account? <a href="/">Sign in here</a>
+        </p>
       </div>
     </div>
   );

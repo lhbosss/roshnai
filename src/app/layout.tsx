@@ -8,10 +8,10 @@ export const metadata = { title: 'Roshanai Library', description: 'Peer to peer 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className="min-h-screen bg-gray-50 text-gray-900">
+      <body style={{ minHeight: '100vh' }}>
         <Header />
-  <main className="w-full p-4">{children}</main>
-  <MessagesFAB />
+        <main style={{ width: '100%' }}>{children}</main>
+        <MessagesFAB />
       </body>
     </html>
   );

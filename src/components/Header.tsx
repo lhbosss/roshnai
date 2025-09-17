@@ -7,10 +7,84 @@ export default function Header() {
   const isLogin = pathname === '/';
   const isRegister = pathname === '/register';
   if (isRegister || isLogin) return null;
-  // Other pages: no brand/logo/button and no navigation links
+  
+  // Other pages: minimal header with subtle styling
   return (
-    <header className="border-b bg-white/70 backdrop-blur supports-[backdrop-filter]:bg-white/50">
-      <div className="max-w-4xl mx-auto p-3" />
+    <header style={{ 
+      borderBottom: '1px solid var(--border-light)', 
+      backgroundColor: 'var(--bg-secondary)', 
+      backdropFilter: 'blur(8px)',
+      position: 'sticky',
+      top: 0,
+      zIndex: 10,
+      boxShadow: 'var(--shadow-sm)'
+    }}>
+      <div style={{ 
+        maxWidth: '1200px', 
+        margin: '0 auto', 
+        padding: '16px 24px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between'
+      }}>
+        <div style={{ 
+          fontSize: '1.25rem', 
+          fontWeight: '600', 
+          color: 'var(--accent-primary)',
+          background: 'linear-gradient(135deg, var(--accent-primary), #8b5cf6)',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          backgroundClip: 'text'
+        }}>
+          Roshanai Library
+        </div>
+        <nav style={{ display: 'flex', gap: '24px', alignItems: 'center' }}>
+          <a 
+            href="/my-books" 
+            style={{ 
+              color: pathname === '/my-books' ? 'var(--accent-primary)' : 'var(--text-secondary)',
+              fontWeight: pathname === '/my-books' ? '500' : '400',
+              textDecoration: 'none',
+              transition: 'color 0.2s ease'
+            }}
+          >
+            My Books
+          </a>
+          <a 
+            href="/borrow" 
+            style={{ 
+              color: pathname === '/borrow' ? 'var(--accent-primary)' : 'var(--text-secondary)',
+              fontWeight: pathname === '/borrow' ? '500' : '400',
+              textDecoration: 'none',
+              transition: 'color 0.2s ease'
+            }}
+          >
+            Browse
+          </a>
+          <a 
+            href="/transactions" 
+            style={{ 
+              color: pathname === '/transactions' ? 'var(--accent-primary)' : 'var(--text-secondary)',
+              fontWeight: pathname === '/transactions' ? '500' : '400',
+              textDecoration: 'none',
+              transition: 'color 0.2s ease'
+            }}
+          >
+            Transactions
+          </a>
+          <a 
+            href="/profile" 
+            style={{ 
+              color: pathname === '/profile' ? 'var(--accent-primary)' : 'var(--text-secondary)',
+              fontWeight: pathname === '/profile' ? '500' : '400',
+              textDecoration: 'none',
+              transition: 'color 0.2s ease'
+            }}
+          >
+            Profile
+          </a>
+        </nav>
+      </div>
     </header>
   );
 }

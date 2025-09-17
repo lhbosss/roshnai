@@ -81,98 +81,158 @@ export default function MyBooksPage() {
   }
 
   return (
-  <div style={{ maxWidth: '100%', margin: '0 auto', padding: '24px 16px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      {/* Top action bar with centered buttons */}
-      <div style={{ width:'100%', display:'flex', justifyContent:'center', gap:12, marginTop:16 }}>
-        <button onClick={()=>{ /* Navigate to the new add page */ window.location.href='/my-books/add'; }}>
-          Add a Book
-        </button>
-        <button onClick={()=>{ window.location.href='/borrow'; }}>
-          Borrow a Book
-        </button>
+    <div className="container" style={{ paddingTop: '32px', paddingBottom: '32px' }}>
+      {/* Header Section */}
+      <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+        <h1 style={{ fontSize: '2.5rem', marginBottom: '8px', background: 'linear-gradient(135deg, var(--accent-primary), #8b5cf6)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
+          My Library
+        </h1>
+        <p style={{ fontSize: '1.125rem', color: 'var(--text-secondary)', marginBottom: '32px' }}>
+          Manage your personal book collection
+        </p>
+        
+        {/* Action Buttons */}
+        <div className="action-bar">
+          <button 
+            onClick={() => { window.location.href='/my-books/add'; }}
+            style={{ padding: '12px 24px', fontSize: '16px' }}
+          >
+            📚 Add a Book
+          </button>
+          <button 
+            onClick={() => { window.location.href='/borrow'; }}
+            className="btn-secondary"
+            style={{ padding: '12px 24px', fontSize: '16px' }}
+          >
+            🔍 Borrow Books
+          </button>
+        </div>
       </div>
-
-      {/* Page title centered */}
-      <h1 style={{ textAlign:'center', marginTop:12 }}>My Books Catalogue</h1>
-
-      {/* Add Book panel */}
-  {/* Inline add panel removed in favor of dedicated /my-books/add page */}
 
       {/* Borrow panel (search) */}
       {searchOpen && (
-        <section style={{ marginTop:16, width:'100%', display:'flex', justifyContent:'center' }}>
-          <div className="card" style={{ width:'100%', maxWidth:600 }}>
-            <h2 style={{ marginTop:0 }}>Borrow a Book</h2>
-            <p style={{ margin:'4px 0', color:'#666' }}>Search by title or author, or browse all available books below.</p>
-            <div style={{ display:'flex', gap:8, flexWrap:'wrap' }}>
+        <section style={{ marginBottom: '40px' }}>
+          <div className="card" style={{ maxWidth: '800px', margin: '0 auto' }}>
+            <h2 style={{ marginTop: 0, color: 'var(--accent-primary)' }}>Browse Available Books</h2>
+            <p style={{ margin: '0 0 20px 0', color: 'var(--text-secondary)' }}>
+              Search by title or author, or browse all available books below.
+            </p>
+            <div style={{ display: 'flex', gap: '12px', marginBottom: '24px', flexWrap: 'wrap' }}>
               <input
-                placeholder="Search by title or author"
+                placeholder="Search by title or author..."
                 value={query}
                 onChange={e=>setQuery(e.target.value)}
                 onKeyDown={e=>{ if(e.key==='Enter'){ doSearch(); } }}
-                style={{ flex:'1 1 320px', minWidth:240 }}
+                style={{ flex: '1 1 300px', minWidth: '240px' }}
               />
-              <button onClick={doSearch}>Search</button>
+              <button onClick={doSearch} style={{ whiteSpace: 'nowrap' }}>Search</button>
             </div>
-            <div style={{ marginTop:16 }}>
+            <div className="book-results">
               {results.map(r=> (
-                <div key={r._id} className="card" style={{ marginBottom:12 }}>
-                  <div style={{ display:'flex', gap:12 }}>
-                    <img src={(r as any).coverUrl || '/Asset2.png'} alt={r.title} width={64} height={96} style={{ objectFit:'cover', borderRadius:4, display:'block' }} />
-                    <div style={{ flex:1 }}>
-                      <strong>{r.title}</strong> by {r.author}<br/>
-                      <small>Lender: {r.lender?.name || 'Unknown'}</small>
-                      <div style={{marginTop:8, display:'flex', gap:8, alignItems:'center'}}>
+                <div key={r._id} className="card" style={{ marginBottom: '16px' }}>
+                  <div style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
+                    <div className="book-cover" style={{ width: '80px', flexShrink: 0 }}>
+                      <img 
+                        src={(r as any).coverUrl || '/Asset2.png'} 
+                        alt={r.title} 
+                        style={{ width: '100%', height: '120px', objectFit: 'cover', borderRadius: 'var(--radius-md)' }} 
+                      />
+                    </div>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <h3 className="book-title" style={{ margin: '0 0 4px 0' }}>{r.title}</h3>
+                      <p className="book-author" style={{ margin: '0 0 8px 0' }}>by {r.author}</p>
+                      <p style={{ fontSize: '14px', color: 'var(--text-muted)', margin: '0 0 16px 0' }}>
+                        Lender: {r.lender?.name || 'Unknown'}
+                      </p>
+                      <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
                         <input
                           type="number"
                           min={1}
-                          placeholder="Price"
+                          placeholder="Rental price"
                           value={priceMap[r._id] || ''}
                           onChange={e=> setPriceMap(m=> ({ ...m, [r._id]: e.target.value }))}
-                          style={{width:120}}
+                          style={{ width: '140px', flexShrink: 0 }}
                         />
-                        <button onClick={()=>requestBorrow(r._id)}>Request</button>
+                        <button 
+                          onClick={() => requestBorrow(r._id)}
+                          style={{ padding: '8px 16px', fontSize: '14px' }}
+                        >
+                          Request to Borrow
+                        </button>
                       </div>
                     </div>
                   </div>
                 </div>
               ))}
-              {!results.length && <p>No results.</p>}
+              {!results.length && (
+                <div style={{ textAlign: 'center', padding: '40px', color: 'var(--text-secondary)' }}>
+                  No books found. Try a different search term.
+                </div>
+              )}
             </div>
           </div>
         </section>
       )}
 
-      {/* Catalogue grid */}
-  <section style={{ marginTop:16, width:'100%' }}>
+      {/* Books Collection */}
+      <section>
         {books.length ? (
-          <div className="book-grid">
-            {books.map(b=> (
-              <div key={b._id}>
-                <div style={{ width:'100%', aspectRatio:'3 / 4', overflow:'hidden', borderRadius:6, background:'#fff' }}>
-                  <img
-                    src={(b as any).coverUrl || '/Asset2.png'}
-                    alt={b.title}
-                    style={{ width:'100%', height:'100%', objectFit:'cover', display:'block' }}
-                    loading="lazy"
-                  />
+          <>
+            <div style={{ marginBottom: '24px' }}>
+              <h2 style={{ color: 'var(--text-primary)' }}>Your Collection ({books.length} books)</h2>
+            </div>
+            <div className="book-grid">
+              {books.map(b=> (
+                <div key={b._id} className="book-card fade-in">
+                  <div className="book-cover">
+                    <img
+                      src={(b as any).coverUrl || '/Asset2.png'}
+                      alt={b.title}
+                      loading="lazy"
+                    />
+                  </div>
+                  <div className="book-info">
+                    <div className="book-title">{b.title}</div>
+                    <div className="book-author">{b.author}</div>
+                    <button 
+                      onClick={() => removeBook(b._id)} 
+                      className="btn-danger"
+                      style={{ 
+                        fontSize: '12px', 
+                        padding: '6px 12px', 
+                        marginTop: '8px',
+                        width: '100%'
+                      }}
+                    >
+                      Remove
+                    </button>
+                  </div>
                 </div>
-                <div style={{ marginTop:8, textAlign:'center' }}>
-                  <strong>{b.title}</strong>
-                  <div style={{ fontSize:12, color:'#555' }}>{b.author}</div>
-                </div>
-                <div style={{ marginTop:8, display:'flex', justifyContent:'center' }}>
-                  <button onClick={() => removeBook(b._id)} style={{ fontSize:12, padding:'6px 10px' }}>Remove</button>
-                </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          </>
         ) : (
-          <p style={{ textAlign:'center' }}>No books yet.</p>
+          <div style={{ 
+            textAlign: 'center', 
+            padding: '60px 20px',
+            background: 'var(--bg-secondary)',
+            borderRadius: 'var(--radius-lg)',
+            border: '1px solid var(--border-light)'
+          }}>
+            <div style={{ fontSize: '3rem', marginBottom: '16px' }}>📚</div>
+            <h3 style={{ color: 'var(--text-primary)', marginBottom: '8px' }}>No books in your library yet</h3>
+            <p style={{ color: 'var(--text-secondary)', marginBottom: '24px' }}>
+              Start building your collection by adding your first book
+            </p>
+            <button 
+              onClick={() => { window.location.href='/my-books/add'; }}
+              style={{ padding: '12px 24px', fontSize: '16px' }}
+            >
+              Add Your First Book
+            </button>
+          </div>
         )}
       </section>
-
-  {/* Messages FAB is mounted globally in layout */}
     </div>
   );
 }
