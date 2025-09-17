@@ -42,7 +42,7 @@ export default function RegisterPage() {
         <div style={{ display:'flex', justifyContent:'center', marginBottom:12 }}>
       <Image src="/roshanaie+u.png" alt="Roshanai Library Logo" width={140} height={140} priority />
         </div>
-        <h1 style={{ textAlign:'center', margin:'0 0 12px' }}>Ma chuda lo apni</h1>
+        <h1 style={{ textAlign:'center', margin:'0 0 12px' }}>Register</h1>
         <form onSubmit={handleSubmit} style={{ display:'flex', flexDirection:'column', gap:12 }}>
           <input placeholder="Full name" value={name} onChange={e=>setName(e.target.value)} required />
           <input placeholder="Username" value={username} onChange={e=>setUsername(e.target.value)} required />
