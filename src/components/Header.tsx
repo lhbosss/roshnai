@@ -4,11 +4,14 @@ import { usePathname } from 'next/navigation';
 
 export default function Header() {
   const pathname = usePathname();
-  const isLogin = pathname === '/';
+  const isHomePage = pathname === '/';
+  const isLogin = pathname === '/login';
   const isRegister = pathname === '/register';
-  if (isRegister || isLogin) return null;
   
-  // Other pages: minimal header with subtle styling
+  // Hide header on homepage (has its own nav), login, and register pages
+  if (isHomePage || isRegister || isLogin) return null;
+  
+  // Other pages: show the authenticated header
   return (
     <header style={{ 
       borderBottom: '1px solid var(--border-light)', 

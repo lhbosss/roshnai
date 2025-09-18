@@ -5,6 +5,74 @@ import Image from 'next/image';
 export default function LandingPageCustomCSS() {
   return (
     <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #f8fafc 0%, #ffffff 50%, #f1f5f9 100%)' }}>
+      {/* Navigation Header */}
+      <nav style={{ 
+        position: 'sticky',
+        top: 0,
+        zIndex: 50,
+        background: 'rgba(255, 255, 255, 0.95)',
+        backdropFilter: 'blur(8px)',
+        borderBottom: '1px solid var(--border-light)',
+        padding: '16px 24px'
+      }}>
+        <div style={{ 
+          maxWidth: '1200px', 
+          margin: '0 auto', 
+          display: 'flex', 
+          justifyContent: 'space-between', 
+          alignItems: 'center' 
+        }}>
+          {/* Logo */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <Image 
+              src="/roshanaie+u.png" 
+              alt="Roshanai Library Logo" 
+              width={40} 
+              height={40} 
+              className="logo"
+            />
+            <span style={{ 
+              fontSize: '1.5rem', 
+              fontWeight: '700', 
+              background: 'linear-gradient(135deg, var(--accent-primary), #8b5cf6)', 
+              WebkitBackgroundClip: 'text', 
+              WebkitTextFillColor: 'transparent', 
+              backgroundClip: 'text' 
+            }}>
+              Roshanai
+            </span>
+          </div>
+
+          {/* Auth Buttons */}
+          <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+            <button 
+              onClick={() => { window.location.href = '/login'; }}
+              className="btn-secondary"
+              style={{ 
+                padding: '8px 20px', 
+                fontSize: '14px',
+                border: '1px solid var(--border-medium)',
+                background: 'transparent'
+              }}
+            >
+              Sign In
+            </button>
+            <button 
+              onClick={() => { window.location.href = '/register'; }}
+              style={{ 
+                padding: '8px 20px', 
+                fontSize: '14px',
+                background: 'var(--accent-primary)',
+                color: 'white',
+                border: 'none',
+                borderRadius: 'var(--radius-md)'
+              }}
+            >
+              Get Started
+            </button>
+          </div>
+        </div>
+      </nav>
       {/* Hero Section */}
       <section style={{ 
         position: 'relative',
@@ -90,50 +158,54 @@ export default function LandingPageCustomCSS() {
             alignItems: 'center', 
             marginBottom: '64px'
           }}>
-            <button style={{ 
-              background: 'linear-gradient(135deg, var(--accent-primary), #8b5cf6)', 
-              color: 'white', 
-              padding: '16px 32px', 
-              borderRadius: '50px', 
-              fontSize: '18px', 
-              fontWeight: '600', 
-              border: 'none', 
-              cursor: 'pointer',
-              minWidth: '200px',
-              boxShadow: 'var(--shadow-lg)',
-              transition: 'all 0.3s ease'
-            }}
-            onMouseEnter={e => {
-              e.currentTarget.style.transform = 'scale(1.05)';
-              e.currentTarget.style.boxShadow = '0 20px 25px -5px rgb(0 0 0 / 0.15)';
-            }}
-            onMouseLeave={e => {
-              e.currentTarget.style.transform = 'scale(1)';
-              e.currentTarget.style.boxShadow = 'var(--shadow-lg)';
-            }}>
+            <button 
+              onClick={() => { window.location.href = '/register'; }}
+              style={{ 
+                background: 'linear-gradient(135deg, var(--accent-primary), #8b5cf6)', 
+                color: 'white', 
+                padding: '16px 32px', 
+                borderRadius: '50px', 
+                fontSize: '18px', 
+                fontWeight: '600', 
+                border: 'none', 
+                cursor: 'pointer',
+                minWidth: '200px',
+                boxShadow: 'var(--shadow-lg)',
+                transition: 'all 0.3s ease'
+              }}
+              onMouseEnter={e => {
+                e.currentTarget.style.transform = 'scale(1.05)';
+                e.currentTarget.style.boxShadow = '0 20px 25px -5px rgb(0 0 0 / 0.15)';
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.transform = 'scale(1)';
+                e.currentTarget.style.boxShadow = 'var(--shadow-lg)';
+              }}>
               Start Borrowing Today
             </button>
-            <button style={{ 
-              border: '2px solid var(--border-medium)', 
-              color: 'var(--text-primary)', 
-              padding: '14px 32px', 
-              borderRadius: '50px', 
-              fontSize: '18px', 
-              fontWeight: '600', 
-              background: 'var(--bg-secondary)', 
-              cursor: 'pointer',
-              minWidth: '200px',
-              transition: 'all 0.3s ease'
-            }}
-            onMouseEnter={e => {
-              e.currentTarget.style.backgroundColor = 'var(--bg-accent)';
-              e.currentTarget.style.borderColor = 'var(--accent-primary)';
-            }}
-            onMouseLeave={e => {
-              e.currentTarget.style.backgroundColor = 'var(--bg-secondary)';
-              e.currentTarget.style.borderColor = 'var(--border-medium)';
-            }}>
-              Browse Collection
+            <button 
+              onClick={() => { window.location.href = '/login'; }}
+              style={{ 
+                border: '2px solid var(--border-medium)', 
+                color: 'var(--text-primary)', 
+                padding: '14px 32px', 
+                borderRadius: '50px', 
+                fontSize: '18px', 
+                fontWeight: '600', 
+                background: 'var(--bg-secondary)', 
+                cursor: 'pointer',
+                minWidth: '200px',
+                transition: 'all 0.3s ease'
+              }}
+              onMouseEnter={e => {
+                e.currentTarget.style.backgroundColor = 'var(--bg-accent)';
+                e.currentTarget.style.borderColor = 'var(--accent-primary)';
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.backgroundColor = 'var(--bg-secondary)';
+                e.currentTarget.style.borderColor = 'var(--border-medium)';
+              }}>
+              Sign In
             </button>
           </div>
 
@@ -451,7 +523,7 @@ export default function LandingPageCustomCSS() {
               Get Started Free
             </button>
             <button 
-              onClick={() => { window.location.href = '/'; }}
+              onClick={() => { window.location.href = '/login'; }}
               style={{ 
                 border: '2px solid white', 
                 color: 'white', 

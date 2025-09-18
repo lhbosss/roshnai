@@ -9,7 +9,7 @@ export async function middleware(req: NextRequest) {
   if (!needsAuth) return NextResponse.next();
   const token = req.cookies.get('token')?.value;
   if (!token) {
-    const url = new URL('/', req.url);
+    const url = new URL('/login', req.url);
     return NextResponse.redirect(url);
   }
   // Verify JWT using Edge-compatible jose
@@ -19,7 +19,7 @@ export async function middleware(req: NextRequest) {
     const key = new TextEncoder().encode(secret);
     await jwtVerify(token, key); // throws if invalid/expired
   } catch {
-    const url = new URL('/', req.url);
+    const url = new URL('/login', req.url);
     return NextResponse.redirect(url);
   }
   return NextResponse.next();

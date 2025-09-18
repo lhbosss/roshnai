@@ -145,7 +145,10 @@ export default function RegisterPage() {
           {error && <div className="error-message">{error}</div>}
         </form>
         <p style={{ marginTop: '24px', textAlign: 'center', color: 'var(--text-secondary)' }}>
-          Already have an account? <a href="/">Sign in here</a>
+          Already have an account? <a href="/login">Sign in here</a>
+        </p>
+        <p style={{ marginTop: '16px', textAlign: 'center' }}>
+          <a href="/" style={{ color: 'var(--text-muted)', fontSize: '14px' }}>← Back to Home</a>
         </p>
       </div>
     </div>
