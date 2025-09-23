@@ -184,16 +184,20 @@ export default function MyBooksPage() {
             <div className="book-grid">
               {books.map(b=> (
                 <div key={b._id} className="book-card fade-in">
-                  <div className="book-cover">
-                    <img
-                      src={(b as any).coverUrl || '/Asset2.png'}
-                      alt={b.title}
-                      loading="lazy"
-                    />
-                  </div>
+                  <a href={`/books/${b._id}`} className="block">
+                    <div className="book-cover">
+                      <img
+                        src={(b as any).coverUrl || '/Asset2.png'}
+                        alt={b.title}
+                        loading="lazy"
+                      />
+                    </div>
+                    <div className="book-info">
+                      <div className="book-title">{b.title}</div>
+                      <div className="book-author">{b.author}</div>
+                    </div>
+                  </a>
                   <div className="book-info">
-                    <div className="book-title">{b.title}</div>
-                    <div className="book-author">{b.author}</div>
                     <button 
                       onClick={() => removeBook(b._id)} 
                       className="btn-danger"

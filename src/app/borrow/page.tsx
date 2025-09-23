@@ -60,16 +60,31 @@ export default function BorrowPage() {
         {results.length ? (
           <div className="book-grid">
             {results.map(r => (
-              <div key={r._id}>
-                <div style={{ width:'100%', aspectRatio:'3 / 4', overflow:'hidden', borderRadius:6, background:'#fff' }}>
-                  <img src={(r as any).coverUrl || '/Asset2.png'} alt={r.title} style={{ width:'100%', height:'100%', objectFit:'cover', display:'block' }} />
+              <a 
+                key={r._id} 
+                href={`/books/${r._id}`}
+                className="block book-card hover:shadow-lg transition-shadow duration-200"
+              >
+                <div className="book-cover">
+                  <img 
+                    src={(r as any).coverUrl || '/Asset2.png'} 
+                    alt={r.title} 
+                    className="w-full h-full object-cover" 
+                  />
                 </div>
-                <div style={{ marginTop:8, textAlign:'center' }}>
-                  <strong>{r.title}</strong>
-                  <div style={{ fontSize:12, color:'#555' }}>{r.author}</div>
-                  <div style={{ fontSize:11, color:'#777' }}>Lender: {r.lender?.name || 'Unknown'}</div>
+                <div className="book-info">
+                  <div className="book-title">{r.title}</div>
+                  <div className="book-author">by {r.author}</div>
+                  <div className="text-xs text-gray-500 mt-1">
+                    Lender: {r.lender?.name || 'Unknown'}
+                  </div>
+                  {(r as any).rentalFee && (
+                    <div className="text-sm font-medium text-blue-600 mt-2">
+                      ${(r as any).rentalFee}/rental
+                    </div>
+                  )}
                 </div>
-              </div>
+              </a>
             ))}
           </div>
         ) : (
