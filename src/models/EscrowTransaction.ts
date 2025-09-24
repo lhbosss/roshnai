@@ -18,6 +18,8 @@ export interface IEscrowTransaction extends Document {
   refundedAt?: Date;
   refundReason?: string;
   notes?: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 const EscrowTransactionSchema = new Schema<IEscrowTransaction>({
