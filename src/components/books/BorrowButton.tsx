@@ -5,8 +5,8 @@ interface BorrowButtonProps {
     _id: string;
     title: string;
     available: boolean;
-    rentalFee: number;
-    securityDeposit: number;
+    rentalFee?: number;
+    securityDeposit?: number;
     lender: {
       _id: string;
       name: string;
@@ -18,7 +18,9 @@ export default function BorrowButton({ book }: BorrowButtonProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
 
-  const totalAmount = book.rentalFee + book.securityDeposit;
+  const rentalFee = book.rentalFee || 0;
+  const securityDeposit = book.securityDeposit || 0;
+  const totalAmount = rentalFee + securityDeposit;
 
   const handleBorrowClick = () => {
     if (!book.available) return;
@@ -38,8 +40,8 @@ export default function BorrowButton({ book }: BorrowButtonProps) {
           bookId: book._id,
           paymentMethod,
           totalAmount,
-          rentalFee: book.rentalFee,
-          securityDeposit: book.securityDeposit
+          rentalFee: rentalFee,
+          securityDeposit: securityDeposit
         }),
       });
 

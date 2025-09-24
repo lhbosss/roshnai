@@ -5,8 +5,8 @@ interface BookHeaderProps {
     title: string;
     author: string;
     available: boolean;
-    condition: string;
-    rentalDuration: number;
+    condition?: string;
+    rentalDuration?: number;
   };
 }
 
@@ -44,13 +44,17 @@ export default function BookHeader({ book }: BookHeaderProps) {
 
       {/* Book Meta Information */}
       <div className="flex flex-wrap gap-3">
-        <span className={`px-3 py-1 rounded-full text-sm font-medium ${getConditionColor(book.condition)}`}>
-          {book.condition.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())} Condition
-        </span>
+        {book.condition && (
+          <span className={`px-3 py-1 rounded-full text-sm font-medium ${getConditionColor(book.condition)}`}>
+            {book.condition.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())} Condition
+          </span>
+        )}
         
-        <span className="px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
-          {book.rentalDuration} day{book.rentalDuration !== 1 ? 's' : ''} rental
-        </span>
+        {book.rentalDuration && (
+          <span className="px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
+            {book.rentalDuration} day{book.rentalDuration !== 1 ? 's' : ''} rental
+          </span>
+        )}
       </div>
     </div>
   );

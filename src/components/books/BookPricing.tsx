@@ -2,15 +2,38 @@ import React from 'react';
 
 interface BookPricingProps {
   book: {
-    rentalFee: number;
-    securityDeposit: number;
-    rentalDuration: number;
+    rentalFee?: number;
+    securityDeposit?: number;
+    rentalDuration?: number;
   };
 }
 
 export default function BookPricing({ book }: BookPricingProps) {
-  const totalCost = book.rentalFee + book.securityDeposit;
-  const dailyRate = book.rentalFee / book.rentalDuration;
+  // Handle cases where pricing fields are undefined (legacy books)
+  const rentalFee = book.rentalFee || 0;
+  const securityDeposit = book.securityDeposit || 0;
+  const rentalDuration = book.rentalDuration || 1;
+  
+  const totalCost = rentalFee + securityDeposit;
+  const dailyRate = rentalDuration > 0 ? rentalFee / rentalDuration : 0;
+
+  // Don't show pricing section if no pricing is set
+  if (!book.rentalFee && !book.securityDeposit) {
+    return (
+      <div className="card bg-gray-50 border-gray-200">
+        <h3 className="text-lg font-semibold mb-4 text-gray-900">Pricing Information</h3>
+        <div className="text-center py-8">
+          <div className="text-2xl mb-2">💰</div>
+          <div className="text-gray-600">
+            Pricing not set by the owner yet.
+          </div>
+          <div className="text-sm text-gray-500 mt-2">
+            Contact the owner to discuss rental terms.
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -29,12 +52,12 @@ export default function BookPricing({ book }: BookPricingProps) {
           <div>
             <div className="font-medium text-gray-900">Rental Fee</div>
             <div className="text-sm text-gray-600">
-              For {book.rentalDuration} day{book.rentalDuration !== 1 ? 's' : ''} 
+              For {rentalDuration} day{rentalDuration !== 1 ? 's' : ''} 
               ({formatCurrency(dailyRate)}/day)
             </div>
           </div>
           <div className="text-lg font-semibold text-gray-900">
-            {formatCurrency(book.rentalFee)}
+            {formatCurrency(rentalFee)}
           </div>
         </div>
 
@@ -46,7 +69,7 @@ export default function BookPricing({ book }: BookPricingProps) {
             </div>
           </div>
           <div className="text-lg font-semibold text-gray-900">
-            {formatCurrency(book.securityDeposit)}
+            {formatCurrency(securityDeposit)}
           </div>
         </div>
 

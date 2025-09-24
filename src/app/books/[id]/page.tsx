@@ -15,14 +15,14 @@ interface BookDetailData {
   coverUrl?: string;
   images?: string[];
   available: boolean;
-  rentalFee: number;
-  securityDeposit: number;
-  condition: 'new' | 'like-new' | 'good' | 'fair' | 'poor';
+  rentalFee?: number;
+  securityDeposit?: number;
+  condition?: 'new' | 'like-new' | 'good' | 'fair' | 'poor';
   category?: string;
   isbn?: string;
   publishedYear?: number;
   language?: string;
-  rentalDuration: number;
+  rentalDuration?: number;
   location?: string;
   lender: {
     _id: string;
