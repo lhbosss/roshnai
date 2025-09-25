@@ -19,19 +19,22 @@ export async function POST(request: NextRequest) {
     await connectDB();
 
     const body = await request.json();
-    const { transactionId, action, photo, notes } = body;
+    const { transactionId, confirmationType, role, action, photo, notes } = body;
+
+    // Support both old format (action) and new format (confirmationType)
+    const actionToProcess = action || confirmationType;
 
     // Validate required fields
-    if (!transactionId || !action) {
+    if (!transactionId || !actionToProcess) {
       return NextResponse.json(
         { error: 'Missing required fields' },
         { status: 400 }
       );
     }
 
-    // Validate action
+    // Validate action/confirmationType
     const validActions = ['lent', 'borrowed', 'returned', 'received'];
-    if (!validActions.includes(action)) {
+    if (!validActions.includes(actionToProcess)) {
       return NextResponse.json(
         { error: 'Invalid action' },
         { status: 400 }
@@ -64,13 +67,13 @@ export async function POST(request: NextRequest) {
 
     // Validate action based on user role
     const userRole = isLender ? 'lender' : 'borrower';
-    if ((action === 'lent' || action === 'received') && !isLender) {
+    if ((actionToProcess === 'lent' || actionToProcess === 'received') && !isLender) {
       return NextResponse.json(
         { error: 'Only lender can perform this action' },
         { status: 403 }
       );
     }
-    if ((action === 'borrowed' || action === 'returned') && !isBorrower) {
+    if ((actionToProcess === 'borrowed' || actionToProcess === 'returned') && !isBorrower) {
       return NextResponse.json(
         { error: 'Only borrower can perform this action' },
         { status: 403 }
@@ -89,7 +92,7 @@ export async function POST(request: NextRequest) {
     const existingConfirmation = await TransactionConfirmation.findOne({
       escrowTransaction: transactionId,
       userRole,
-      action
+      action: actionToProcess
     });
 
     if (existingConfirmation) {
@@ -110,7 +113,7 @@ export async function POST(request: NextRequest) {
       escrowTransaction: transactionId,
       user: auth.id,
       userRole,
-      action,
+      action: actionToProcess,
       photo,
       notes,
       ipAddress: clientIP,
@@ -123,7 +126,7 @@ export async function POST(request: NextRequest) {
     let shouldCheckForCompletion = false;
     let messageContent = '';
 
-    switch (action) {
+    switch (actionToProcess) {
       case 'lent':
         transaction.lenderConfirmed = true;
         messageContent = `${(transaction.lender as any).name} confirmed that the book "${(transaction.book as any).title}" has been handed over.`;
@@ -165,12 +168,17 @@ export async function POST(request: NextRequest) {
     // Send notification message to the other party
     const recipientId = isLender ? transaction.borrower._id : transaction.lender._id;
     const notificationMessage = new Message({
+      transaction: transactionId,
+      book: transaction.book._id,
       sender: auth.id,
-      recipient: recipientId,
+      receiver: recipientId,
       content: messageContent + (notes ? `\n\nNote: ${notes}` : ''),
-      bookId: transaction.book._id,
-      transactionId: transaction._id,
-      isSystemMessage: false
+      type: 'system',
+      priority: 'high',
+      relatedTo: {
+        type: 'confirmation',
+        id: (confirmation as any)._id.toString()
+      }
     });
     await notificationMessage.save();
 
@@ -178,7 +186,7 @@ export async function POST(request: NextRequest) {
       success: true,
       confirmation: {
         _id: (confirmation as any)._id.toString(),
-        action,
+        action: actionToProcess,
         confirmedAt: confirmation.confirmedAt,
         notes
       },
@@ -188,7 +196,13 @@ export async function POST(request: NextRequest) {
         lenderConfirmed: transaction.lenderConfirmed,
         borrowerConfirmed: transaction.borrowerConfirmed,
         confirmedAt: transaction.confirmedAt?.toISOString(),
-        completedAt: transaction.completedAt?.toISOString()
+        completedAt: transaction.completedAt?.toISOString(),
+        totalAmount: transaction.totalAmount,
+        rentalFee: transaction.rentalFee,
+        securityDeposit: transaction.securityDeposit,
+        createdAt: transaction.createdAt?.toISOString(),
+        updatedAt: transaction.updatedAt?.toISOString(),
+        expiresAt: transaction.expiresAt?.toISOString()
       },
       message: 'Confirmation recorded successfully'
     });

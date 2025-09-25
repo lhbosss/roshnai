@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { ConfirmationStatusIndicator } from '@/components/transaction/StatusIndicators';
 
 interface PaymentModalProps {
   book: {
@@ -308,6 +309,52 @@ export default function PaymentModal({ book, isOpen, onClose, onSuccess }: Payme
                     
                     <p><strong>7. Privacy:</strong> Your payment and personal information are protected according to our privacy policy.</p>
                   </div>
+                </div>
+              </div>
+
+              {/* Confirmation Process Explanation */}
+              <div className="bg-blue-50 rounded-lg p-4">
+                <h4 className="font-medium text-blue-900 mb-3">What happens after payment?</h4>
+                <div className="space-y-2 text-sm text-blue-800">
+                  <div className="flex items-start space-x-2">
+                    <div className="w-5 h-5 bg-blue-200 rounded-full flex items-center justify-center mt-0.5">
+                      <span className="text-blue-800 text-xs font-bold">1</span>
+                    </div>
+                    <div>
+                      <p className="font-medium">Payment Secured</p>
+                      <p className="text-blue-700">Your payment is held safely in escrow</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start space-x-2">
+                    <div className="w-5 h-5 bg-blue-200 rounded-full flex items-center justify-center mt-0.5">
+                      <span className="text-blue-800 text-xs font-bold">2</span>
+                    </div>
+                    <div>
+                      <p className="font-medium">Lender Confirmation</p>
+                      <p className="text-blue-700">Book owner confirms they've given you the book</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start space-x-2">
+                    <div className="w-5 h-5 bg-blue-200 rounded-full flex items-center justify-center mt-0.5">
+                      <span className="text-blue-800 text-xs font-bold">3</span>
+                    </div>
+                    <div>
+                      <p className="font-medium">Your Confirmation</p>
+                      <p className="text-blue-700">You confirm receipt of the book in good condition</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start space-x-2">
+                    <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center mt-0.5">
+                      <span className="text-white text-xs">✓</span>
+                    </div>
+                    <div>
+                      <p className="font-medium text-green-800">Funds Released</p>
+                      <p className="text-green-700">Rental fee is released to the book owner</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="mt-3 p-2 bg-blue-100 rounded text-xs text-blue-800">
+                  <strong>Protection:</strong> Your security deposit remains protected and will be returned when you return the book undamaged.
                 </div>
               </div>
 

@@ -3,6 +3,10 @@
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import EscrowStatus from '@/components/EscrowStatus';
+import ConfirmationPanel from '@/components/transaction/ConfirmationPanel';
+import TransactionStatus from '@/components/transaction/TransactionStatus';
+import ConfirmationHistory from '@/components/transaction/ConfirmationHistory';
+import { ConfirmationStatusIndicator, TransactionStatusBadge } from '@/components/transaction/StatusIndicators';
 import { IEscrowTransaction } from '@/models/EscrowTransaction';
 
 export default function TransactionDetailPage() {
@@ -11,6 +15,7 @@ export default function TransactionDetailPage() {
   const transactionId = params.id as string;
   
   const [transaction, setTransaction] = useState<IEscrowTransaction | null>(null);
+  const [currentUserId, setCurrentUserId] = useState<string>('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -25,6 +30,13 @@ export default function TransactionDetailPage() {
 
   const fetchTransaction = async () => {
     try {
+      // Fetch user info first
+      const userResponse = await fetch('/api/auth/me');
+      if (userResponse.ok) {
+        const userData = await userResponse.json();
+        setCurrentUserId(userData.user.id);
+      }
+
       const response = await fetch(`/api/escrow/${transactionId}`);
       const data = await response.json();
       
@@ -134,16 +146,45 @@ export default function TransactionDetailPage() {
             </svg>
             Back to Transactions
           </button>
-          <h1 className="text-3xl font-bold text-gray-900">Transaction Details</h1>
-          <p className="text-gray-600">Manage your book rental transaction</p>
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900">Transaction Details</h1>
+              <p className="text-gray-600">Manage your book rental transaction</p>
+            </div>
+            <div className="flex items-center space-x-4">
+              <TransactionStatusBadge transaction={transaction} size="md" />
+              <ConfirmationStatusIndicator 
+                transaction={transaction} 
+                size="md" 
+                showLabels={false}
+                variant="compact"
+              />
+            </div>
+          </div>
         </div>
 
         <div className="grid gap-6 lg:grid-cols-3">
           {/* Main Content */}
-          <div className="lg:col-span-2">
-            <EscrowStatus 
+          <div className="lg:col-span-2 space-y-6">
+            {/* Transaction Status Overview */}
+            <TransactionStatus
               transactionId={transactionId}
+              currentUserId={currentUserId}
               onStatusUpdate={handleStatusUpdate}
+              showActions={false}
+            />
+
+            {/* Confirmation Panel */}
+            <ConfirmationPanel
+              transaction={transaction}
+              currentUserId={currentUserId}
+              onConfirmationUpdate={handleStatusUpdate}
+            />
+
+            {/* Confirmation History */}
+            <ConfirmationHistory
+              transaction={transaction}
+              currentUserId={currentUserId}
             />
           </div>
 

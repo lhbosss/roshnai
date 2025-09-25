@@ -2,6 +2,7 @@ import './globals.css';
 import React from 'react';
 import Header from '@/components/Header';
 import MessagesFAB from '@/components/MessagesFAB';
+import NotificationWrapper from '@/components/NotificationWrapper';
 
 export const metadata = { 
   title: 'Roshanai Library', 
@@ -27,9 +28,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="manifest" href="/favicon/site.webmanifest" />
       </head>
       <body style={{ minHeight: '100vh' }}>
-        <Header />
-        <main style={{ width: '100%' }}>{children}</main>
-        <MessagesFAB />
+        <NotificationWrapper>
+          <Header />
+          <main style={{ width: '100%' }}>{children}</main>
+          <MessagesFAB />
+        </NotificationWrapper>
       </body>
     </html>
   );

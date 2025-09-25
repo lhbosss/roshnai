@@ -115,13 +115,19 @@ export async function POST(request: NextRequest) {
       escrowTransaction.paymentId = paymentSuccess.paymentId;
       await escrowTransaction.save();
 
-      // Create initial message thread
+      // Create initial message thread with transaction and book context
       const initialMessage = new Message({
+        transaction: escrowTransaction._id,
+        book: bookId,
         sender: auth.id,
-        recipient: book.lender._id,
+        receiver: book.lender._id,
         content: `Hi! I've initiated a rental request for "${book.title}". The payment has been secured in escrow. Please confirm when you're ready to hand over the book.`,
-        bookId: bookId,
-        transactionId: escrowTransaction._id
+        type: 'system',
+        priority: 'high',
+        relatedTo: {
+          type: 'payment',
+          id: paymentSuccess.paymentId
+        }
       });
       await initialMessage.save();
 
