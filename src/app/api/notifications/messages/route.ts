@@ -39,14 +39,14 @@ export async function GET(request: NextRequest) {
 
     // Transform to notification format
     const notifications = recentMessages.map(message => ({
-      id: message._id.toString(),
-      transactionId: message.transaction._id.toString(),
-      bookTitle: message.book.title,
-      senderName: message.sender.name,
+      id: (message._id as any).toString(),
+      transactionId: (message.transaction as any)._id.toString(),
+      bookTitle: (message.book as any).title,
+      senderName: (message.sender as any).name,
       messagePreview: message.content.substring(0, 100),
       priority: message.priority || 'normal',
-      type: getMessageNotificationType(message.type, message.attachments?.length > 0),
-      timestamp: message.createdAt,
+      type: getMessageNotificationType(message.type, (message.attachments?.length || 0) > 0),
+      timestamp: (message as any).createdAt,
       read: false
     }));
 

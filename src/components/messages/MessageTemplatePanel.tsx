@@ -24,7 +24,7 @@ export default function MessageTemplatePanel({
 
   // Get templates based on user role (we'll assume 'both' for now)
   const allTemplates = getTemplatesForContext('both');
-  const quickReplies = getQuickReplies(transactionStatus, 'both'); // This would need user role context
+  const quickReplies = getQuickReplies(transactionStatus, 'lender'); // Default to lender, this should be dynamic based on user role
 
   const filteredTemplates = selectedCategory === 'all' 
     ? allTemplates

@@ -38,7 +38,7 @@ export async function GET(request: NextRequest) {
     }> = {};
 
     messages.forEach(message => {
-      statuses[message._id.toString()] = {
+      statuses[(message._id as any).toString()] = {
         delivered: !!message.deliveredAt,
         read: message.isRead,
         readAt: message.readAt
