@@ -5,6 +5,7 @@ import BookHeader from '@/components/books/BookHeader';
 import BookSummary from '@/components/books/BookSummary';
 import BookPricing from '@/components/books/BookPricing';
 import BorrowButton from '@/components/books/BorrowButton';
+import Breadcrumb from '@/components/navigation/Breadcrumb';
 
 interface BookDetailData {
   _id: string;
@@ -87,12 +88,7 @@ export default function BookDetailPage() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      {/* Breadcrumb */}
-      <nav className="mb-6 text-sm">
-        <a href="/borrow" className="text-blue-600 hover:underline">Browse Books</a>
-        <span className="mx-2 text-gray-400">/</span>
-        <span className="text-gray-600">{book.title}</span>
-      </nav>
+      <Breadcrumb bookTitle={book.title} />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Book Image */}

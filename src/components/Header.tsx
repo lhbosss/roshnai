@@ -62,7 +62,7 @@ export default function Header() {
               transition: 'color 0.2s ease'
             }}
           >
-            Browse
+            Browse Books
           </a>
           <a 
             href="/transactions" 
