@@ -1,6 +1,7 @@
 "use client";
 import React from 'react';
 import { usePathname } from 'next/navigation';
+import { ResponsiveImage } from '@/components/ui/image';
 
 export default function Header() {
   const pathname = usePathname();
@@ -30,16 +31,25 @@ export default function Header() {
         alignItems: 'center',
         justifyContent: 'space-between'
       }}>
-        <div style={{ 
-          fontSize: '1.25rem', 
-          fontWeight: '600', 
-          color: 'var(--accent-primary)',
-          background: 'linear-gradient(135deg, var(--accent-primary), #8b5cf6)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          backgroundClip: 'text'
-        }}>
-          Roshanai Library
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <ResponsiveImage
+            src="/roshanaie+u.png"
+            alt="Roshanai Library Logo"
+            aspectRatio="1/1"
+            className="w-8 h-8"
+            priority={true}
+          />
+          <div style={{ 
+            fontSize: '1.25rem', 
+            fontWeight: '600', 
+            color: 'var(--accent-primary)',
+            background: 'linear-gradient(135deg, var(--accent-primary), #8b5cf6)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text'
+          }}>
+            Roshanai Library
+          </div>
         </div>
         <nav style={{ display: 'flex', gap: '24px', alignItems: 'center' }}>
           <a 
