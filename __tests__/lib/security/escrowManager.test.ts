@@ -58,8 +58,18 @@ describe('EscrowManager', () => {
         transactionId,
         borrowerId,
         lenderId,
-        25.00,
-        performedBy
+        {
+          rentalFee: 15.00,
+          securityDeposit: 10.00,
+          platformFee: 2.50
+        },
+        { type: 'card', last4: '1234' },
+        [
+          {
+            type: 'book_returned',
+            description: 'Book returned in good condition'
+          }
+        ]
       )
 
       expect(account.id).toBeDefined()

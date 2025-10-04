@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
-import Book from '../../models/Book';
-import User from '../../models/User';
-import Transaction from '../../models/Transaction';
-import Message from '../../models/Message';
+import { Book } from '../../models/Book';
+import { User } from '../../models/User';
+import { Transaction } from '../../models/Transaction';
+import { Message } from '../../models/Message';
 
 /**
  * Database Query Optimization Module
@@ -293,7 +293,7 @@ export class DatabaseOptimizer {
       }
     ];
 
-    const result = await Transaction.aggregate(pipeline);
+    const result = await Transaction.aggregate(pipeline as any);
     
     return {
       transactions: result[0]?.transactions || [],
@@ -373,7 +373,7 @@ export class DatabaseOptimizer {
       { $limit: limit }
     ];
 
-    return await Message.aggregate(pipeline);
+    return await Message.aggregate(pipeline as any);
   }
 
   /**
@@ -388,18 +388,20 @@ export class DatabaseOptimizer {
       const stats: any = {};
 
       for (const collectionName of collections) {
-        const collectionStats = await db.collection(collectionName).stats();
+        const collectionStats = await db?.collection(collectionName).aggregate([{ $collStats: { storageStats: {} } }]).toArray();
+        const statsDoc = collectionStats?.[0]?.storageStats || {};
+        
         stats[collectionName] = {
-          documentCount: collectionStats.count,
-          avgDocumentSize: collectionStats.avgObjSize,
-          totalSize: collectionStats.size,
-          indexSize: collectionStats.totalIndexSize,
-          indexes: collectionStats.nindexes
+          documentCount: statsDoc.count || 0,
+          avgDocumentSize: statsDoc.avgObjSize || 0,
+          totalSize: statsDoc.size || 0,
+          indexSize: statsDoc.totalIndexSize || 0,
+          indexes: statsDoc.nindexes || 0
         };
       }
 
       // Get slow query stats (if profiling is enabled)
-      const slowQueries = await db.collection('system.profile').find({
+      const slowQueries = await db?.collection('system.profile').find({
         ts: { $gte: new Date(Date.now() - 24 * 60 * 60 * 1000) }, // Last 24 hours
         millis: { $gte: 100 } // Queries taking more than 100ms
       }).sort({ ts: -1 }).limit(10).toArray();
@@ -421,7 +423,7 @@ export class DatabaseOptimizer {
   static async enableProfiling(slowOpThreshold = 100) {
     try {
       const db = mongoose.connection.db;
-      await db.admin().command({
+      await db?.admin().command({
         profile: 2, // Profile all operations
         slowms: slowOpThreshold
       });
@@ -437,7 +439,7 @@ export class DatabaseOptimizer {
   static async disableProfiling() {
     try {
       const db = mongoose.connection.db;
-      await db.admin().command({ profile: 0 });
+      await db?.admin().command({ profile: 0 });
       console.log('✓ MongoDB profiling disabled');
     } catch (error) {
       console.error('Error disabling MongoDB profiling:', error);
@@ -491,27 +493,27 @@ export class DatabaseOptimizer {
       const analysis: any = {};
 
       for (const collectionName of collections) {
-        const indexStats = await db.collection(collectionName).aggregate([
+        const indexStats = await db?.collection(collectionName).aggregate([
           { $indexStats: {} }
         ]).toArray();
 
-        const unusedIndexes = indexStats.filter((index: any) => 
+        const unusedIndexes = indexStats?.filter((index: any) => 
           index.accesses.ops === 0 && index.name !== '_id_'
         );
 
         const mostUsedIndexes = indexStats
-          .filter((index: any) => index.name !== '_id_')
-          .sort((a: any, b: any) => b.accesses.ops - a.accesses.ops)
-          .slice(0, 5);
+          ?.filter((index: any) => index.name !== '_id_')
+          ?.sort((a: any, b: any) => b.accesses.ops - a.accesses.ops)
+          ?.slice(0, 5);
 
         analysis[collectionName] = {
-          totalIndexes: indexStats.length,
-          unusedIndexes: unusedIndexes.map((idx: any) => idx.name),
-          mostUsedIndexes: mostUsedIndexes.map((idx: any) => ({
+          totalIndexes: indexStats?.length || 0,
+          unusedIndexes: unusedIndexes?.map((idx: any) => idx.name) || [],
+          mostUsedIndexes: mostUsedIndexes?.map((idx: any) => ({
             name: idx.name,
             operations: idx.accesses.ops,
             since: idx.accesses.since
-          }))
+          })) || []
         };
       }
 

@@ -9,5 +9,9 @@ export {
 } from './OptimizedImage';
 
 // Image optimization utilities
-export * from './imageUtils';
-export * from './imageConfig';
+// Re-export utility functions
+export { generateSizes } from './imageUtils'
+export { imageConfig } from './imageConfig'
+
+// For now, export a subset to avoid compilation issues
+// Full exports can be added as needed
