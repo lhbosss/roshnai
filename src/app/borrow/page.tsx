@@ -279,7 +279,7 @@ export default function BorrowPage() {
                 >
                   <div className="aspect-[3/4] bg-gray-100 overflow-hidden">
                     <img 
-                      src={book.coverUrl || '/Asset2.png'} 
+                      src={book.coverUrl || '/images/default-book-cover.svg'} 
                       alt={book.title} 
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200" 
                     />

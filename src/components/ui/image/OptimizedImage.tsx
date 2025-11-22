@@ -18,7 +18,7 @@ interface OptimizedImageProps {
 }
 
 // Default book cover placeholder
-const DEFAULT_BOOK_COVER = '/images/default-book-cover.png';
+const DEFAULT_BOOK_COVER = '/images/default-book-cover.svg';
 const BLUR_DATA_URL = 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k=';
 
 export function OptimizedImage({
@@ -36,14 +36,21 @@ export function OptimizedImage({
   onLoad,
   onError,
 }: OptimizedImageProps) {
-  const [imgSrc, setImgSrc] = useState(src);
+  const [imgSrc, setImgSrc] = useState(src?.trim() || DEFAULT_BOOK_COVER);
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
-    setImgSrc(src);
-    setHasError(false);
-    setIsLoading(true);
+    const cleanSrc = src?.trim();
+    if (!cleanSrc) {
+      setImgSrc(DEFAULT_BOOK_COVER);
+      setHasError(false);
+      setIsLoading(false);
+    } else {
+      setImgSrc(cleanSrc);
+      setHasError(false);
+      setIsLoading(true);
+    }
   }, [src]);
 
   const handleLoad = () => {

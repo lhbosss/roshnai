@@ -222,7 +222,7 @@ export default function LandingPage() {
       <footer className="bg-gray-900 text-white py-16 px-4">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-8">
-            <h3 className="text-2xl font-bold mb-4">Roshanai Library</h3>
+            <h3 className="text-2xl font-bold mb-4">Readioo</h3>
             <p className="text-gray-400 max-w-2xl mx-auto">
               Connecting students through the power of shared knowledge and stories.
             </p>
@@ -262,7 +262,7 @@ export default function LandingPage() {
             </div>
           </div>
           <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
-            <p>&copy; 2025 Roshanai Library. All rights reserved.</p>
+            <p>&copy; 2025 Readioo. All rights reserved.</p>
           </div>
         </div>
       </footer>

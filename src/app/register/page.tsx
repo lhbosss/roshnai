@@ -1,7 +1,6 @@
 'use client';
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Image from 'next/image';
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -40,14 +39,9 @@ export default function RegisterPage() {
     <div className="auth-layout">
       <div className="auth-card fade-in">
         <div className="logo-container">
-          <Image 
-            src="/roshanaie+u.png" 
-            alt="Roshanai Library Logo" 
-            width={120} 
-            height={120} 
-            priority 
-            className="logo"
-          />
+          <div className="w-[120px] h-[120px] bg-gradient-to-br from-blue-600 to-purple-600 rounded-full flex items-center justify-center shadow-lg">
+            <span className="text-white text-2xl font-bold">R</span>
+          </div>
         </div>
         <h1 style={{ textAlign: 'center', marginBottom: '16px', fontSize: '1.75rem' }}>Join Roshanai</h1>
         <p style={{ textAlign: 'center', marginBottom: '32px', color: 'var(--text-secondary)' }}>

@@ -163,7 +163,7 @@ export const performanceThresholds = {
 
 // Error handling configuration
 export const errorConfig = {
-  fallbackImage: '/images/fallback.png',
+  fallbackImage: '/images/default-book-cover.svg',
   retryAttempts: 3,
   retryDelay: 1000, // milliseconds
   timeoutDuration: 10000, // milliseconds

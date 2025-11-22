@@ -29,7 +29,7 @@ export function BookCard({ book, onClick, priority = false, className = '' }: Bo
       <div className="p-4">
         <div className="aspect-[2/3] relative mb-3 overflow-hidden rounded-lg bg-gray-100">
           <BookCoverImage
-            src={book.coverImage || '/images/default-book-cover.png'}
+            src={book.coverImage || '/images/default-book-cover.svg'}
             alt={`Cover of ${book.title}`}
             width={160}
             height={240}

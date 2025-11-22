@@ -1,7 +1,6 @@
 'use client';
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Image from 'next/image';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -39,16 +38,6 @@ export default function LoginPage() {
   return (
     <div className="auth-layout">
       <div className="auth-card fade-in">
-        <div className="logo-container">
-          <Image 
-            src="/roshanaie+u.png" 
-            alt="Roshanai Library Logo" 
-            width={120} 
-            height={120} 
-            priority 
-            className="logo"
-          />
-        </div>
         <h1 style={{ textAlign: 'center', marginBottom: '24px', fontSize: '1.75rem' }}>Welcome Back</h1>
         <p style={{ textAlign: 'center', marginBottom: '32px', color: 'var(--text-secondary)' }}>
           Sign in to access your book library

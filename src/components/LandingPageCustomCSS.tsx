@@ -1,6 +1,5 @@
 'use client';
 import React from 'react';
-import Image from 'next/image';
 
 export default function LandingPageCustomCSS() {
   return (
@@ -24,13 +23,20 @@ export default function LandingPageCustomCSS() {
         }}>
           {/* Logo */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <Image 
-              src="/roshanaie+u.png" 
-              alt="Roshanai Library Logo" 
-              width={40} 
-              height={40} 
-              className="logo"
-            />
+            <div style={{ 
+              width: '40px', 
+              height: '40px', 
+              borderRadius: '50%',
+              background: 'linear-gradient(135deg, var(--accent-primary), #8b5cf6)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: 'white',
+              fontSize: '18px',
+              fontWeight: '700'
+            }}>
+              R
+            </div>
             <span style={{ 
               fontSize: '1.5rem', 
               fontWeight: '700', 
@@ -39,7 +45,7 @@ export default function LandingPageCustomCSS() {
               WebkitTextFillColor: 'transparent', 
               backgroundClip: 'text' 
             }}>
-              Roshanai
+              Readioo
             </span>
           </div>
 

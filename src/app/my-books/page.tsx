@@ -133,7 +133,7 @@ export default function MyBooksPage() {
                   <div style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
                     <div className="book-cover" style={{ width: '80px', flexShrink: 0 }}>
                       <img 
-                        src={(r as any).coverUrl || '/Asset2.png'} 
+                        src={(r as any).coverUrl || '/images/default-book-cover.svg'} 
                         alt={r.title} 
                         style={{ width: '100%', height: '120px', objectFit: 'cover', borderRadius: 'var(--radius-md)' }} 
                       />
@@ -187,7 +187,7 @@ export default function MyBooksPage() {
                   <a href={`/books/${b._id}`} className="block">
                     <div className="book-cover">
                       <img
-                        src={(b as any).coverUrl || '/Asset2.png'}
+                        src={(b as any).coverUrl || '/images/default-book-cover.svg'}
                         alt={b.title}
                         loading="lazy"
                       />

@@ -268,7 +268,7 @@ export default function TransactionsPage() {
                             {/* Book Cover */}
                             <div className="flex-shrink-0">
                               <img 
-                                src={tx.book?.coverUrl || '/Asset2.png'} 
+                                src={tx.book?.coverUrl || '/images/default-book-cover.svg'} 
                                 alt={tx.book?.title || 'Book'} 
                                 className="w-20 h-28 object-cover rounded-lg shadow-sm"
                               />
