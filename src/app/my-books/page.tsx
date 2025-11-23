@@ -3,7 +3,16 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 // Removed Next/Image to allow fully responsive cover sizing
 
-interface Book { _id: string; title: string; author: string; description?: string; }
+interface Book { 
+  _id: string; 
+  title: string; 
+  author: string; 
+  description?: string; 
+  rentalFee?: number;
+  securityDeposit?: number;
+  condition?: string;
+  rentalDuration?: number;
+}
 interface SearchBook extends Book { lender?: { name:string }; }
 
 export default function MyBooksPage() {
@@ -12,6 +21,10 @@ export default function MyBooksPage() {
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [description, setDescription] = useState('');
+  const [rentalFee, setRentalFee] = useState('100');
+  const [securityDeposit, setSecurityDeposit] = useState('200');
+  const [condition, setCondition] = useState<'new' | 'like-new' | 'good' | 'fair' | 'poor'>('good');
+  const [rentalDuration, setRentalDuration] = useState('14');
   const [error, setError] = useState('');
   const [searchOpen, setSearchOpen] = useState(false);
   const [addOpen, setAddOpen] = useState(false);
@@ -43,10 +56,29 @@ export default function MyBooksPage() {
   async function addBook(e: React.FormEvent) {
     e.preventDefault();
     setError('');
-    const res = await fetch('/api/books', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ title, author, description }) });
+    const res = await fetch('/api/books', { 
+      method:'POST', 
+      headers:{'Content-Type':'application/json'}, 
+      body: JSON.stringify({ 
+        title, 
+        author, 
+        description,
+        coverUrl: '/images/default-book-cover.svg',
+        rentalFee: parseFloat(rentalFee) || 100,
+        securityDeposit: parseFloat(securityDeposit) || 200,
+        condition,
+        rentalDuration: parseInt(rentalDuration) || 14
+      }) 
+    });
     const data = await res.json();
     if (!res.ok) { setError(data.message||'Failed'); return; }
-    setTitle(''); setAuthor(''); setDescription('');
+    setTitle(''); 
+    setAuthor(''); 
+    setDescription('');
+    setRentalFee('100');
+    setSecurityDeposit('200');
+    setCondition('good');
+    setRentalDuration('14');
     loadBooks();
   }
 

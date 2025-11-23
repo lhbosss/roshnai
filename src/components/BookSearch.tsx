@@ -24,6 +24,13 @@ export default function BookSearch() {
   const [results, setResults] = useState<ResultItem[]>([]);
   const [hasSearched, setHasSearched] = useState(false);
   const [addingId, setAddingId] = useState<string | null>(null);
+  const [showAddForm, setShowAddForm] = useState<string | null>(null);
+  const [addFormData, setAddFormData] = useState({
+    rentalFee: '100',
+    securityDeposit: '200',
+    condition: 'good' as 'new' | 'like-new' | 'good' | 'fair' | 'poor',
+    rentalDuration: '14'
+  });
 
   const fetchBooks = useCallback(async () => {
     const q = query.trim();
@@ -70,19 +77,37 @@ export default function BookSearch() {
       const res = await fetch('/api/books', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title: item.title, author: item.author, description: 'Imported from Open Library', coverUrl: item.coverUrl })
+        body: JSON.stringify({ 
+          title: item.title, 
+          author: item.author, 
+          description: 'Imported from Open Library', 
+          coverUrl: item.coverUrl,
+          rentalFee: Number(addFormData.rentalFee),
+          securityDeposit: Number(addFormData.securityDeposit),
+          condition: addFormData.condition,
+          rentalDuration: Number(addFormData.rentalDuration)
+        })
       });
       if (!res.ok) {
         const data = await res.json().catch(() => ({} as any));
         throw new Error(data.message || 'Failed to add book');
       }
-      // Redirect to My Books catalogue
+      // Close the form and redirect to My Books catalogue
+      setShowAddForm(null);
       window.location.href = '/my-books';
     } catch (e: any) {
       alert(e.message || 'Failed to add book');
     } finally {
       setAddingId(null);
     }
+  }
+
+  function handleAddClick(item: ResultItem) {
+    setShowAddForm(item.id);
+  }
+
+  function handleAddFormSubmit(item: ResultItem) {
+    addToMyBooks(item);
   }
 
   return (
@@ -113,9 +138,9 @@ export default function BookSearch() {
       )}
 
       {!loading && !error && results.length > 0 && (
-    <div className="book-grid" style={{ marginTop:16 }}>
+        <div className="book-grid" style={{ marginTop:16 }}>
           {results.map((r) => (
-      <div key={r.id} style={{ display:'flex', flexDirection:'column', width:'100%', minWidth:0 }}>
+            <div key={r.id} style={{ display:'flex', flexDirection:'column', width:'100%', minWidth:0 }}>
               <div style={{ width:'100%', aspectRatio:'3 / 4', background:'#ffffff', overflow:'hidden' }}>
                 {r.coverUrl ? (
                   <img src={r.coverUrl} alt={r.title} style={{ width:'100%', height:'100%', objectFit:'cover', display:'block' }} loading="lazy" />
@@ -129,14 +154,136 @@ export default function BookSearch() {
                   {r.author}{r.year ? ` • ${r.year}` : ''}
                 </div>
               </div>
-              <button
-                onClick={() => addToMyBooks(r)}
-                disabled={addingId === r.id}
-                style={{ marginTop:6, fontSize:12, padding:'6px 10px' }}
-                title={`${r.title} — ${r.author}`}
-              >
-                {addingId === r.id ? 'Adding…' : 'Select'}
-              </button>
+              
+              {showAddForm === r.id ? (
+                <div style={{ 
+                  position: 'fixed', 
+                  top: 0, 
+                  left: 0, 
+                  right: 0, 
+                  bottom: 0, 
+                  backgroundColor: 'rgba(0,0,0,0.5)', 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  justifyContent: 'center', 
+                  zIndex: 1000, 
+                  padding: '16px' 
+                }}>
+                  <div style={{ 
+                    backgroundColor: 'white', 
+                    borderRadius: '12px', 
+                    padding: '24px', 
+                    maxWidth: '400px', 
+                    width: '100%',
+                    boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)'
+                  }}>
+                    <h3 style={{ marginTop: 0, marginBottom: '16px', textAlign: 'center' }}>
+                      Set Rental Details
+                    </h3>
+                    <p style={{ fontSize: '14px', color: '#666', marginBottom: '20px', textAlign: 'center' }}>
+                      <strong>{r.title}</strong> by {r.author}
+                    </p>
+                    
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                        <div>
+                          <label style={{ display: 'block', fontSize: '12px', marginBottom: '4px' }}>
+                            Rental Fee (PKR)
+                          </label>
+                          <input
+                            type="number"
+                            min="10"
+                            max="5000"
+                            value={addFormData.rentalFee}
+                            onChange={(e) => setAddFormData(prev => ({ ...prev, rentalFee: e.target.value }))}
+                            style={{ width: '100%', fontSize: '14px', padding: '8px' }}
+                          />
+                        </div>
+                        <div>
+                          <label style={{ display: 'block', fontSize: '12px', marginBottom: '4px' }}>
+                            Security Deposit (PKR)
+                          </label>
+                          <input
+                            type="number"
+                            min="50"
+                            max="10000"
+                            value={addFormData.securityDeposit}
+                            onChange={(e) => setAddFormData(prev => ({ ...prev, securityDeposit: e.target.value }))}
+                            style={{ width: '100%', fontSize: '14px', padding: '8px' }}
+                          />
+                        </div>
+                      </div>
+                      
+                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                        <div>
+                          <label style={{ display: 'block', fontSize: '12px', marginBottom: '4px' }}>
+                            Condition
+                          </label>
+                          <select
+                            value={addFormData.condition}
+                            onChange={(e) => setAddFormData(prev => ({ ...prev, condition: e.target.value as any }))}
+                            style={{ width: '100%', fontSize: '14px', padding: '8px' }}
+                          >
+                            <option value="new">New</option>
+                            <option value="like-new">Like New</option>
+                            <option value="good">Good</option>
+                            <option value="fair">Fair</option>
+                            <option value="poor">Poor</option>
+                          </select>
+                        </div>
+                        <div>
+                          <label style={{ display: 'block', fontSize: '12px', marginBottom: '4px' }}>
+                            Max Days
+                          </label>
+                          <input
+                            type="number"
+                            min="1"
+                            max="365"
+                            value={addFormData.rentalDuration}
+                            onChange={(e) => setAddFormData(prev => ({ ...prev, rentalDuration: e.target.value }))}
+                            style={{ width: '100%', fontSize: '14px', padding: '8px' }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div style={{ display: 'flex', gap: '12px', marginTop: '20px' }}>
+                      <button
+                        onClick={() => setShowAddForm(null)}
+                        style={{ 
+                          flex: 1, 
+                          padding: '10px', 
+                          fontSize: '14px', 
+                          backgroundColor: '#f3f4f6', 
+                          color: '#374151',
+                          border: '1px solid #d1d5db'
+                        }}
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        onClick={() => handleAddFormSubmit(r)}
+                        disabled={addingId === r.id}
+                        style={{ 
+                          flex: 1, 
+                          padding: '10px', 
+                          fontSize: '14px'
+                        }}
+                      >
+                        {addingId === r.id ? 'Adding...' : 'Add Book'}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <button
+                  onClick={() => handleAddClick(r)}
+                  style={{ marginTop:6, fontSize:12, padding:'6px 10px' }}
+                  title={`${r.title} — ${r.author}`}
+                >
+                  Add to Library
+                </button>
+              )}
             </div>
           ))}
         </div>
