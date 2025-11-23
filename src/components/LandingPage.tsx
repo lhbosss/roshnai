@@ -231,33 +231,34 @@ export default function LandingPage() {
             <div>
               <h4 className="font-semibold mb-4">Platform</h4>
               <ul className="space-y-2 text-gray-400">
-                <li><a href="#" className="hover:text-white transition-colors">Browse Books</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">How it Works</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Pricing</a></li>
+                <li><a href="/borrow" className="hover:text-white transition-colors">Browse Books</a></li>
+                <li><a href="/register" className="hover:text-white transition-colors">Get Started</a></li>
+                <li><a href="/my-books" className="hover:text-white transition-colors">My Library</a></li>
               </ul>
             </div>
             <div>
               <h4 className="font-semibold mb-4">Community</h4>
               <ul className="space-y-2 text-gray-400">
-                <li><a href="#" className="hover:text-white transition-colors">Student Hub</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Book Clubs</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Reviews</a></li>
+                <li><a href="/transactions" className="hover:text-white transition-colors">Transactions</a></li>
+                <li><a href="/messages" className="hover:text-white transition-colors">Messages</a></li>
+                <li><a href="/complaints" className="hover:text-white transition-colors">Support</a></li>
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold mb-4">Support</h4>
+              <h4 className="font-semibold mb-4">Contact</h4>
               <ul className="space-y-2 text-gray-400">
-                <li><a href="#" className="hover:text-white transition-colors">Help Center</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Contact Us</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">FAQ</a></li>
+                <li><a href="tel:+923275526100" className="hover:text-white transition-colors">+92 327 5526100</a></li>
+                <li><span className="text-sm">NUST Business School</span></li>
+                <li><span className="text-sm">H-12, Islamabad</span></li>
               </ul>
             </div>
             <div>
               <h4 className="font-semibold mb-4">Legal</h4>
               <ul className="space-y-2 text-gray-400">
-                <li><a href="#" className="hover:text-white transition-colors">Privacy Policy</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Terms of Service</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Cookie Policy</a></li>
+                <li><a href="/policies/privacy" className="hover:text-white transition-colors">Privacy Policy</a></li>
+                <li><a href="/policies/service" className="hover:text-white transition-colors">Terms of Service</a></li>
+                <li><a href="/policies/returns" className="hover:text-white transition-colors">Return Policy</a></li>
+                <li><a href="/policies" className="hover:text-white transition-colors">All Policies</a></li>
               </ul>
             </div>
           </div>

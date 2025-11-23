@@ -1,6 +1,7 @@
 import './globals.css';
 import React from 'react';
 import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 import MessagesFAB from '@/components/MessagesFAB';
 import NotificationWrapper from '@/components/NotificationWrapper';
 
@@ -15,10 +16,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <link rel="manifest" href="/favicon/site.webmanifest" />
       </head>
-      <body style={{ minHeight: '100vh' }}>
+      <body style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
         <NotificationWrapper>
           <Header />
-          <main style={{ width: '100%' }}>{children}</main>
+          <main style={{ width: '100%', flex: 1 }}>{children}</main>
+          <Footer />
           <MessagesFAB />
         </NotificationWrapper>
       </body>
